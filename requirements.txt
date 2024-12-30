@@ -3,3 +3,7 @@ transformers
 vllm
 nltk
 openai
+sklearn
+sentence_transformers
+matplotlib
+torch_pca
