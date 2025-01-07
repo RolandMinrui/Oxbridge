@@ -1,35 +1,16 @@
 from tqdm import tqdm
 import torch
-import random
 from torch_pca import PCA
-import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.metrics import pairwise_distances
 from sentence_transformers import SentenceTransformer
 
-
-def load_dataset(nums=1000, seed=1):
-    train_dataset = []
-    test_dataset = []
-    
-    ## oxbridge
-    oxbridge = pd.read_csv("../data/sentences.csv")['sentence'].sample(n=nums, random_state=seed)
-    for item in oxbridge:
-        train_dataset.append(item)
-
-    ## FPB
-    FPB = pd.read_csv("../data/FPB-all.csv")['sentence'].sample(n=nums, random_state=seed)
-    for item in FPB:
-        test_dataset.append(item)
-    
-    return train_dataset, test_dataset
-
-
 class Data_Projection:
-    def __init__(self, model_name_or_path, device, train_dataset, n_dim=2):
+    def __init__(self, model_name_or_path, device, train_dataset, train_source, n_dim=2):
         self.device = device
         self.model = SentenceTransformer(model_name_or_path, device=device)
         self.train_dataset = train_dataset
+        self.train_source = train_source
         self.pca = PCA(n_components=n_dim, svd_solver='auto')
         self.test_embeddings = {} # {name: embeddings}
         self.train()
@@ -67,6 +48,22 @@ class Data_Projection:
         plt.legend()
         plt.show()
     
+    def plot_source(self):
+        train_np = self.train_embeddings.cpu().numpy()
+        sources = set(self.train_source)
+        colors = plt.cm.tab10.colors  # Use a colormap for distinct colors
+
+        plt.figure(figsize=(8, 6))
+        for i, source in enumerate(sources):
+            # Filter embeddings for the current source
+            indices = [idx for idx, src in enumerate(self.train_source) if src == source]
+            source_embeddings = train_np[indices]
+            plt.scatter(source_embeddings[:, 0], source_embeddings[:, 1], 
+                        c=[colors[i]], label=source, alpha=0.7)
+
+        plt.legend()
+        plt.show()
+
     def plot_all(self):
         train_np = self.train_embeddings.cpu().numpy()
         num_tests = len(self.test_embeddings)
