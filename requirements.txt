@@ -1,5 +1,6 @@
 torch
 transformers
+accelerate==0.34.2
 vllm
 nltk
 openai

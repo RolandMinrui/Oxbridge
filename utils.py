@@ -10,18 +10,17 @@ Text: [Input Text]
 Response: '''
 
 class TestDataset(Dataset):
-    def __init__(self, dataset_path, use_sys_prompt=False, use_few_shot=False, use_template=False):
+    def __init__(self, dataset_path, keys=['sentence'], use_template=False):
         self.data = pd.read_csv(dataset_path)
-        self.keys = ['sentence']
-        # self.keys = list(self.data.keys())
-        self.use_sys_prompt = use_sys_prompt
-        self.use_few_shot = use_few_shot
+        self.keys = keys
         self.use_template = use_template
 
     def apply_template(self, sentence):
-        prompt = template_prompt.replace("[Task Prompt]", task_prompt)
-        prompt = prompt.replace("[Input Text]", sentence)
-        return prompt
+        if self.use_template:
+            prompt = template_prompt.replace("[Task Prompt]", task_prompt)
+            prompt = prompt.replace("[Input Text]", sentence)
+            return prompt
+        return sentence
     
     def __len__(self):        
         return len(self.data)
