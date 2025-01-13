@@ -9,6 +9,12 @@ template_prompt = '''Instruction: [Task Prompt]
 Text: [Input Text]
 Response: '''
 
+# task_prompt = '''What is the sentiment of this news? Please choose an answer from {negative/neutral/positive}.'''
+
+# template_prompt = '''Instruction: [Task Prompt]
+# Input: [Input Text]
+# Answer: '''
+
 class TestDataset(Dataset):
     def __init__(self, dataset_path, keys=['sentence'], use_template=False):
         self.data = pd.read_csv(dataset_path)
