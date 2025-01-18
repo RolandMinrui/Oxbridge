@@ -1,4 +1,4 @@
-# run sentiment analysis for llama (AutoModelForCausalLM) with vllm
+# run sentiment analysis for llama (AutoModelForCausalLM) with vllm and lora
 
 from utils import *
 from tqdm import tqdm

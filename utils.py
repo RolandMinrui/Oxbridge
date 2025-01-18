@@ -1,13 +1,13 @@
 import pandas as pd
 from torch.utils.data import Dataset
 
-task_prompt = '''Analyze the sentiment of this statement extracted from a financial news article. 
-Provide your answer as either negative, positive or neutral without anything else.
-For instance, The company's stocks plummeted following the scandal. would be classified as negative.'''
+# task_prompt = '''Analyze the sentiment of this statement extracted from a financial news article. 
+# Provide your answer as either negative, positive or neutral without anything else.
+# For instance, The company's stocks plummeted following the scandal. would be classified as negative.'''
 
-template_prompt = '''Instruction: [Task Prompt]
-Text: [Input Text]
-Response: '''
+# template_prompt = '''Instruction: [Task Prompt]
+# Text: [Input Text]
+# Response: '''
 
 # task_prompt = '''What is the sentiment of this news? Please choose an answer from {negative/neutral/positive}.'''
 
@@ -16,15 +16,14 @@ Response: '''
 # Answer: '''
 
 class TestDataset(Dataset):
-    def __init__(self, dataset_path, keys=['sentence'], use_template=False):
+    def __init__(self, dataset_path, keys=['sentence'], prompt_template=None):
         self.data = pd.read_csv(dataset_path)
         self.keys = keys
-        self.use_template = use_template
+        self.prompt_template = prompt_template
 
     def apply_template(self, sentence):
-        if self.use_template:
-            prompt = template_prompt.replace("[Task Prompt]", task_prompt)
-            prompt = prompt.replace("[Input Text]", sentence)
+        if self.prompt_template is not None:
+            prompt = self.prompt_template.replace("[Input Text]", sentence)
             return prompt
         return sentence
     
