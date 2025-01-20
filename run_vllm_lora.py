@@ -9,21 +9,18 @@ from vllm import LLM, SamplingParams
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from vllm.lora.request import LoRARequest
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "7"
 
 print("----- Load Dataset -----")
-# use appropriate dataset for inference
-# data_path = "data/train_easy.csv"
-# data_path = "data/train_hard.csv"
-data_path = "data/FPB.csv"
-
-test_dataset = TestDataset(data_path)
+dataset="FPB"
+# dataset="FIQASA"
+test_dataset = TestDataset(dataset=dataset)
 batch_data = [test_dataset[i]['sentence'] for i in range(len(test_dataset))]
 
 print("----- Load Model -----")
 # model_name_or_path = "meta-llama/Llama-2-7b-hf"
-model_name_or_path = "NousResearch/Llama-2-13b-hf"
 # lora_name_or_path = "FinGPT/fingpt-mt_llama2-7b_lora"
+model_name_or_path = "NousResearch/Llama-2-13b-hf"
 lora_name_or_path = "FinGPT/fingpt-sentiment_llama2-13b_lora"
 model_name = lora_name_or_path.split("/")[-1]
 
@@ -40,4 +37,4 @@ outputs = model.generate(batch_data,
                          sampling_params, 
                          lora_request=lora)
 labels = [output.outputs[0].text for output in outputs]
-save_to_csv(data_path, model_name, labels)
+save_to_csv(dataset_map[dataset]['path'], model_name, labels)

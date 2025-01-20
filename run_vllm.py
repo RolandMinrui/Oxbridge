@@ -8,13 +8,12 @@ from torch.utils.data import DataLoader
 from vllm import LLM, SamplingParams
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "6"
+os.environ["CUDA_VISIBLE_DEVICES"] = "7"
 
 print("----- Load Dataset -----")
-# data_path = "train_easy.csv"
-data_path = "train_hard.csv"
-# data_path = "FPB.csv"
-test_dataset = TestDataset(data_path, use_sys_prompt=True, use_few_shot=True, use_template=True)
+dataset="FPB"
+# dataset="FIQASA"
+test_dataset = TestDataset(dataset=dataset)
 batch_data = [test_dataset[i]['sentence'] for i in range(len(test_dataset))]
 
 print("----- Load Model -----")
@@ -29,6 +28,5 @@ sampling_params = SamplingParams(temperature=0, max_tokens=4)
 
 print("----- Start Inference -----")
 outputs = model.generate(batch_data, sampling_params)
-print(batch_data[0])
 labels = [output.outputs[0].text for output in outputs]
-save_to_csv(data_path, model_name, labels)
+save_to_csv(dataset_map[dataset]['path'], model_name, labels)

@@ -1,7 +1,7 @@
 # Financial Sentiment Analysis
 ## Dataset
 * Oxbrige Sentimental Analysis Dataset: The whole unprocessed dataset is saved in `data/sentences.csv` with the processed data in `data/train_easy.csv` and `data/train_hard.csv`. The `train_easy` dataset contains 310 easier data points (that Yingxian and Zhang Kai agree with) and the `train_hard` dataset contains 100 harder data points (that Yingxian and Zhang Kai disagree with and Qingyi dives deeper into).
-* [Financial PhraseBank (FPB) Dataset](https://www.kaggle.com/datasets/sbhatti/financial-sentiment-analysis): The `FPB-all` contains 5843 labels sentences. The `FPB` is a small subject for simpler evaluation.
+* [Financial PhraseBank (FPB) Dataset](https://huggingface.co/datasets/takala/financial_phrasebank): Polar sentiment dataset of sentences from financial news. The dataset consists of 4840 sentences from English language financial news categorised by sentiment. The dataset is divided by agreement rate of 5-8 annotators. We use the `sentences_allagree` split, which contains 2264 sentences with 100% annotator agreement.
 
 ## Models
 * [NLTK](https://www.nltk.org/api/nltk.sentiment.sentiment_analyzer.html): refer to `nltk.ipynb`
