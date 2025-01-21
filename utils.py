@@ -6,14 +6,17 @@ dataset_map = {
     "FIQASA": {"path": "data/sentimental_analysis/FIQASA/test.csv", "type": "FIQASA"},
     "OXBRIDGE_EASY": {"path": "data/sentimental_analysis/OXBRIDGE/test_easy.csv", "type": "OXBRIDGE"},
     "OXBRIDGE_HARD": {"path": "data/sentimental_analysis/OXBRIDGE/test_hard.csv", "type": "OXBRIDGE"},
+    "OXBRIDGE": {"path": "data/sentimental_analysis/OXBRIDGE/test.csv", "type": "OXBRIDGE"},
 }
 
 task_prompt_map = {
     "FPB": '''Analyze the sentiment of this statement extracted from a financial news article. 
 Provide your answer as either negative, positive or neutral without anything else.
 For instance, The company's stocks plummeted following the scandal. would be classified as negative.''',
-    "FIQASA": '''What is the sentiment of this news? Please choose an answer from {negative/neutral/positive}.''', 
-    "OXBRIDGE": None,
+    "FIQASA": '''What is the sentiment of this news? Please choose an answer from {negative/neutral/positive} without anything else.''', 
+    "OXBRIDGE": '''Analyze the sentiment of this statement extracted from a financial news article. 
+Provide your answer as either negative, positive or neutral without anything else.
+For instance, The company's stocks plummeted following the scandal. would be classified as negative.''',
 }
 
 template_prompt = '''Instruction: [Task Prompt]

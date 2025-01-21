@@ -51,11 +51,10 @@ class Data_Projection:
     def plot_source(self):
         train_np = self.train_embeddings.cpu().numpy()
         sources = set(self.train_source)
-        colors = plt.cm.tab10.colors  # Use a colormap for distinct colors
+        colors = plt.cm.tab10.colors  # use a colormap for distinct colors
 
         plt.figure(figsize=(8, 6))
         for i, source in enumerate(sources):
-            # Filter embeddings for the current source
             indices = [idx for idx, src in enumerate(self.train_source) if src == source]
             source_embeddings = train_np[indices]
             plt.scatter(source_embeddings[:, 0], source_embeddings[:, 1], 

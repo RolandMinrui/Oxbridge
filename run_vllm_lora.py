@@ -9,7 +9,7 @@ from vllm import LLM, SamplingParams
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from vllm.lora.request import LoRARequest
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "7"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 print("----- Load Dataset -----")
 dataset="FPB"
